@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>METAVERSE — Beyond the Frames · Set Design & Spatial Pack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;500;600&display=swap"
+    />
+    <link rel="stylesheet" href="assets/base.css" />
+    <link rel="stylesheet" href="assets/hero.css" />
+    <script>document.documentElement.classList.add("x-js");</script>
+    <style>
+      /* Design departure: the deck's dark neon theme, set through the kit's own tokens. */
+      :root, :root[data-theme="light"], :root[data-theme="dark"] {
+        color-scheme: dark;
+        --x-navy: #070B2E;
+        --x-blue: #2D3BFF;
+        --x-violet: #7A2BFF;
+        --x-magenta: #E21FB4;
+        --x-cyan: #22E6FF;
+        --x-lilac: #C9B8FF;
+        --x-display: "Orbitron", "Montserrat", sans-serif;
+        --x-glow: 0 0 18px rgb(34 230 255 / 0.45), 0 0 42px rgb(122 43 255 / 0.35);
+        --x-grad: linear-gradient(90deg, var(--x-cyan), var(--x-blue) 35%, var(--x-violet) 65%, var(--x-magenta));
+        --sans: "Montserrat", "Geist", -apple-system, sans-serif;
+        --text-primary: #F3F1FF;
+        --text-secondary: #BDB6EC;
+        --text-tertiary: rgb(201 184 255 / 0.45);
+        --text-primary-on: #FFFFFF;
+        --text-secondary-on: #FFFFFF;
+        --fill-primary: var(--x-blue);
+        --fill-primary-on: var(--x-navy);
+        --fill-tertiary: rgb(40 34 120 / 0.38);
+        --fill-segment: #3A1B8C;
+        --fill-system-green: var(--x-cyan);
+        --stroke-primary: rgb(201 184 255 / 0.28);
+        --stroke-secondary: rgb(201 184 255 / 0.13);
+        --stroke-primary-on: rgb(34 230 255 / 0.22);
+        --stroke-composer: rgb(34 230 255 / 0.35);
+        --hover-wash: rgb(34 230 255 / 0.1);
+        --hover-wash-primary-on: rgb(255 255 255 / 0.12);
+        --mat-inverse: rgb(10 14 58 / 0.72);
+        --mat-agent: rgb(16 18 70 / 0.72);
+        --mat-regular: rgb(16 18 70 / 0.55);
+        --hark-shadow: 0 10px 40px rgb(0 0 0 / 0.45), 0 0 30px rgb(122 43 255 / 0.18);
+      }
+      body {
+        background:
+          radial-gradient(1200px 700px at 85% -10%, rgb(122 43 255 / 0.35), transparent 60%),
+          radial-gradient(900px 600px at -10% 40%, rgb(45 59 255 / 0.22), transparent 60%),
+          radial-gradient(900px 700px at 100% 90%, rgb(226 31 180 / 0.16), transparent 60%),
+          var(--x-navy);
+        background-attachment: fixed;
+      }
+      .page { position: relative; z-index: 1; }
+      .head h2, .step h3, .cards h3, .callout__lead strong, .step__num, .stat__fig, .breakdown .row--total dd { font-family: var(--x-display); letter-spacing: 0.02em; }
+      .head h2 { font-weight: 700; text-transform: uppercase; font-size: clamp(22px, 3.2vw, 36px); line-height: 1.15; }
+      .head__eyebrow { color: var(--x-cyan); letter-spacing: 0.18em; text-transform: uppercase; font-size: var(--size-caption); }
+      .stat__fig { color: var(--x-cyan); text-shadow: 0 0 18px rgb(34 230 255 / 0.5), 0 0 40px rgb(122 43 255 / 0.5); font-weight: 700; }
+      .step__num { color: var(--x-cyan); text-shadow: 0 0 22px rgb(34 230 255 / 0.5); }
+
+      /* Starfield, progress bar, cursor */
+      .x-stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+      .x-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: var(--x-grad); box-shadow: 0 0 12px var(--x-cyan); }
+      .x-cursor, .x-cursor-ring { position: fixed; top: 0; left: 0; z-index: 70; pointer-events: none; border-radius: 50%; display: none; }
+      .x-cursor { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--x-cyan); box-shadow: 0 0 12px var(--x-cyan), 0 0 24px var(--x-violet); }
+      .x-cursor-ring { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid rgb(201 184 255 / 0.6); box-shadow: 0 0 16px rgb(122 43 255 / 0.5); transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out), margin 0.25s var(--ease-out), border-color 0.25s; }
+      .x-cursor-on .x-cursor, .x-cursor-on .x-cursor-ring { display: block; }
+      .x-cursor-ring.is-hot { width: 64px; height: 64px; margin: -32px 0 0 -32px; border-color: var(--x-magenta); }
+
+      /* Side dots */
+      .x-dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 30; display: grid; gap: 4px; }
+      .x-dots a { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; }
+      .x-dots a::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--x-lilac); transition: all 0.3s var(--ease-out); }
+      .x-dots a.is-on::before { background: var(--x-cyan); border-color: var(--x-cyan); box-shadow: 0 0 10px var(--x-cyan); transform: scale(1.3); }
+      .x-dots a span { position: absolute; right: 36px; padding: 3px 8px; border-radius: var(--r-pill); background: var(--mat-inverse); font: var(--type-tag); white-space: nowrap; opacity: 0; transform: translateX(6px); transition: all 0.25s var(--ease-out); pointer-events: none; }
+      .x-dots a:hover span, .x-dots a:focus-visible span { opacity: 1; transform: none; }
+      @media (max-width: 1240px) { .x-dots { display: none; } }
+
+      /* Loader */
+      .x-loader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--x-navy); animation: x-loader-out 0.7s var(--ease-out) 2.3s forwards; }
+      .x-loader svg { width: min(260px, 60vw); overflow: visible; }
+      .x-loader path { fill: none; stroke: url(#x-inf-grad); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 8px var(--x-cyan)) drop-shadow(0 0 18px var(--x-violet)); animation: x-draw 1.6s var(--ease-out) 0.15s forwards; }
+      .x-loader p { margin-top: 18px; text-align: center; font: 500 12px/1 var(--x-display); letter-spacing: 0.5em; color: var(--x-lilac); opacity: 0; animation: x-fade 0.6s ease 0.9s forwards; }
+      @keyframes x-draw { to { stroke-dashoffset: 0; } }
+      @keyframes x-fade { to { opacity: 1; } }
+      @keyframes x-loader-out { to { opacity: 0; visibility: hidden; transform: scale(1.06); } }
+
+      /* Hero */
+      .x-hero { position: relative; overflow: hidden; width: 100vw; margin-inline: calc(50% - 50vw); margin-top: -76px; min-height: 100svh; display: grid; align-items: end; isolation: isolate; }
+      .x-hero__img { position: absolute; inset: -6%; width: 112%; height: 112%; max-width: none; object-fit: cover; z-index: -2; transform: translate3d(0, var(--hy, 0px), 0) scale(var(--hs, 1.08)); animation: x-kenburns 26s ease-in-out infinite alternate; }
+      @keyframes x-kenburns { from { scale: 1; } to { scale: 1.08; } }
+      .x-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(7 11 46 / 0.55) 0%, rgb(7 11 46 / 0.15) 35%, rgb(7 11 46 / 0.75) 72%, var(--x-navy) 100%), radial-gradient(70% 60% at 20% 70%, rgb(122 43 255 / 0.35), transparent 70%); }
+      .x-hero__rings { position: absolute; right: -8vw; top: 12vh; width: min(62vw, 720px); aspect-ratio: 1; z-index: -1; pointer-events: none; }
+      .x-hero__rings span { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--x-cyan); border-right-color: var(--x-violet); box-shadow: 0 0 30px rgb(34 230 255 / 0.18), inset 0 0 30px rgb(122 43 255 / 0.18); animation: x-spin 18s linear infinite; }
+      .x-hero__rings span:nth-child(2) { inset: 12%; border-top-color: var(--x-magenta); border-left-color: var(--x-blue); animation-duration: 12s; animation-direction: reverse; }
+      .x-hero__rings span:nth-child(3) { inset: 26%; border: 1px dashed rgb(201 184 255 / 0.35); animation-duration: 40s; }
+      @keyframes x-spin { to { transform: rotate(360deg); } }
+      .x-hero__copy { max-width: var(--page-max); width: 100%; margin: 0 auto; padding: 120px var(--gutter) clamp(48px, 8vh, 96px); }
+      .x-hero__eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--stroke-composer); background: rgb(7 11 46 / 0.5); backdrop-filter: blur(10px); font: var(--type-tag); letter-spacing: 0.14em; text-transform: uppercase; color: var(--x-lilac); }
+      .x-hero__eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--x-cyan); box-shadow: 0 0 10px var(--x-cyan); animation: x-blink 2s ease-in-out infinite; }
+      @keyframes x-blink { 50% { opacity: 0.3; } }
+      .x-title { margin: 18px 0 14px; font: 900 clamp(48px, 13vw, 168px)/0.9 var(--x-display); letter-spacing: 0.02em; display: flex; flex-wrap: wrap; }
+      .x-title span { display: inline-block; opacity: 0; transform: translateY(0.4em) rotateX(-70deg); filter: blur(8px); }
+      .x-ready .x-title span { animation: x-letter 0.9s var(--ease-out) forwards; animation-delay: calc(var(--i) * 70ms); }
+      @keyframes x-letter { to { opacity: 1; transform: none; filter: none; } }
+      .x-title .x-solid { color: #fff; text-shadow: 0 0 20px rgb(34 230 255 / 0.55), 0 0 60px rgb(122 43 255 / 0.6); }
+      .x-title .x-line { color: var(--x-cyan); -webkit-text-fill-color: rgb(7 11 46 / 0.2); -webkit-text-stroke: 2px var(--x-cyan); }
+      .x-ready .x-title .x-solid, .x-ready .x-title .x-line { animation: x-letter 0.9s var(--ease-out) forwards, x-pulse 3.6s ease-in-out infinite; animation-delay: calc(var(--i) * 70ms), calc(1.2s + var(--i) * 120ms); }
+      @keyframes x-pulse { 50% { filter: drop-shadow(0 0 14px var(--x-magenta)) brightness(1.15); } }
+      .x-hero__sub { font: 500 clamp(16px, 2vw, 22px)/1.35 var(--sans); max-width: 40ch; }
+      .x-hero__sub b { font-family: var(--x-display); font-weight: 700; color: var(--x-cyan); text-shadow: 0 0 14px rgb(34 230 255 / 0.45); }
+      .x-hero__meta { margin-top: 12px; color: var(--text-secondary); font-size: var(--size-small); }
+      .x-hero .x-up { opacity: 0; transform: translateY(16px); }
+      .x-ready .x-hero .x-up { animation: x-letter 0.9s var(--ease-out) forwards; animation-delay: var(--d, 0.9s); }
+      .x-scrollcue { position: absolute; left: 50%; bottom: 18px; width: 22px; height: 36px; margin-left: -11px; border: 1.5px solid var(--x-lilac); border-radius: 12px; }
+      .x-scrollcue::after { content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 2px; background: var(--x-cyan); animation: x-cue 1.8s ease-in-out infinite; }
+      @keyframes x-cue { 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
+
+      /* Scroll reveals */
+      .x-js .x-r { opacity: 0; transform: translateY(36px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+      .x-js .x-r.is-in { opacity: 1; transform: none; }
+      .x-js .x-fly { opacity: 0; transform: perspective(1200px) rotateX(18deg) rotateY(-14deg) translateY(60px) scale(0.92); transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out); }
+      .x-js .x-fly.is-in { opacity: 1; transform: none; }
+
+      /* Tilt + sheen frames */
+      .x-frame { position: relative; margin: 0; perspective: 1000px; }
+      .x-tilt { position: relative; display: block; width: 100%; padding: 0; border: 1px solid var(--stroke-primary-on); border-radius: var(--r-l); overflow: hidden; background: var(--x-navy); cursor: zoom-in; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform 0.4s var(--ease-out), box-shadow 0.4s; box-shadow: 0 20px 60px rgb(0 0 0 / 0.4); }
+      .x-tilt:hover { box-shadow: 0 30px 80px rgb(0 0 0 / 0.5), var(--x-glow); }
+      .x-tilt img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+      .x-tilt::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.28) 48%, rgb(34 230 255 / 0.15) 52%, transparent 65%); transform: translateX(-120%); pointer-events: none; }
+      .x-tilt:hover::after { transform: translateX(120%); transition: transform 0.9s var(--ease-out); }
+      .x-frame figcaption { display: flex; gap: 10px; align-items: baseline; padding: 12px 4px 0; font-size: var(--size-small); color: var(--text-secondary); }
+      .x-frame figcaption b { font: 500 var(--size-caption)/1 var(--x-display); color: var(--x-cyan); letter-spacing: 0.1em; }
+
+      /* Blueprint reveal */
+      .x-bp .x-tilt img { clip-path: inset(0 100% 0 0); transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s; }
+      .x-bp .x-tilt::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px; z-index: 2; background: var(--x-cyan); box-shadow: 0 0 18px 4px var(--x-cyan); opacity: 0; }
+      .x-bp.is-in .x-tilt img { clip-path: inset(0 0 0 0); }
+      .x-bp.is-in .x-tilt::before { animation: x-scan 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s; }
+      @keyframes x-scan { 0% { left: 0; opacity: 1; } 95% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+      .x-bp .x-tilt { background: repeating-linear-gradient(0deg, rgb(34 230 255 / 0.07) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, rgb(34 230 255 / 0.07) 0 1px, transparent 1px 24px), #0a1145; }
+      .x-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); }
+      .x-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 22px); }
+      @media (max-width: 760px) { .x-grid2, .x-grid3 { grid-template-columns: minmax(0, 1fr); } }
+
+      /* Swatches */
+      .x-swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .x-swatch { padding: 12px; border-radius: var(--r-m); background: var(--fill-tertiary); border: 1px solid var(--stroke-secondary); }
+      .x-swatch i { display: block; height: 64px; border-radius: var(--r-s); background: var(--c); box-shadow: 0 0 24px color-mix(in srgb, var(--c) 55%, transparent); border: 1px solid rgb(255 255 255 / 0.15); margin-bottom: 10px; }
+      .x-swatch b { display: block; font: var(--type-label); }
+      .x-swatch small { display: block; color: var(--text-secondary); font-size: var(--size-caption); }
+      @media (max-width: 599px) { .x-swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      .x-mats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+      .x-mats .pill { padding: 5px 12px; border: 1px solid var(--stroke-primary); }
+
+      /* Zone cards */
+      .cards.x-zones { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+      .x-zones > div { position: relative; overflow: hidden; border: 1px solid var(--stroke-secondary); transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s var(--ease-out); }
+      .x-zones > div:hover { border-color: var(--x-cyan); box-shadow: var(--x-glow); transform: translateY(-4px); }
+      .x-zone__l { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 14px; clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%); background: var(--x-grad); font: 900 20px/1 var(--x-display); color: #fff; }
+      .x-zones h3 { font-size: 15px; line-height: 1.3; min-height: 2.6em; }
+      .x-zones p { display: flex; flex-wrap: wrap; gap: 6px; }
+
+      /* Gallery */
+      .x-gallery { position: relative; }
+      .x-track { position: relative; display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 20px 4px 28px; margin-inline: -4px; cursor: grab; }
+      .x-track::-webkit-scrollbar { display: none; }
+      .x-track.is-drag { cursor: grabbing; scroll-snap-type: none; }
+      .x-slide { flex: 0 0 min(78%, 820px); scroll-snap-align: center; }
+      @media (max-width: 599px) { .x-slide { flex-basis: 88%; } }
+      .x-slide .x-tilt { transition: transform 0.6s var(--ease-out), opacity 0.6s, box-shadow 0.4s; }
+      .x-slide:not(.is-active) .x-tilt { transform: scale(0.92) rotateY(var(--side, 0deg)); opacity: 0.55; }
+      .x-gnav { display: flex; align-items: center; gap: 10px; }
+      .head .x-gnav { justify-self: end; }
+      @media (max-width: 899px) { .head .x-gnav { justify-self: start; } }
+      .x-gbtn { width: var(--tap); height: var(--tap); border-radius: 50%; border: 1px solid var(--stroke-composer); background: var(--mat-inverse); color: var(--text-primary); font-size: 18px; cursor: pointer; transition: box-shadow 0.3s; }
+      .x-gbtn:hover { box-shadow: var(--x-glow); }
+      .x-gcount { font: 500 var(--size-small)/1 var(--x-display); color: var(--text-secondary); letter-spacing: 0.1em; margin-left: 6px; }
+
+      /* Axonometric */
+      .x-axo { perspective: 1400px; margin: 0; }
+      .x-axo .x-tilt { transform: rotateX(var(--ax, 0deg)) rotateY(var(--ay, 0deg)) rotateZ(var(--az, 0deg)) scale(var(--as, 1)); transition: transform 0.2s linear, box-shadow 0.4s; animation: x-float 7s ease-in-out infinite; }
+      @keyframes x-float { 50% { translate: 0 -12px; } }
+      .x-axo figcaption { padding-top: 14px; font-size: var(--size-small); color: var(--text-secondary); text-align: center; }
+
+      /* Budget figure */
+      .x-total { font: 900 clamp(44px, 8vw, 92px)/1 var(--x-display); color: #fff; text-shadow: 0 0 10px var(--x-cyan), 0 0 36px var(--x-violet), 0 0 70px var(--x-magenta); filter: drop-shadow(0 0 22px rgb(122 43 255 / 0.5)); }
+
+      /* Thank you */
+      .x-thanks { text-align: center; padding-block: clamp(40px, 8vw, 100px) 20px; position: relative; }
+      .x-thanks h2 { font: 900 clamp(44px, 11vw, 140px)/1 var(--x-display); letter-spacing: 0.04em; color: #fff; text-shadow: 0 0 10px var(--x-cyan), 0 0 40px var(--x-violet), 0 0 80px var(--x-magenta); }
+      .x-thanks h2 span { display: inline-block; }
+      .x-thanks.is-in h2 span { animation: x-flicker 2.4s ease-in-out both, x-pulse 4s ease-in-out 2.4s infinite; animation-delay: calc(var(--i) * 90ms), calc(2.4s + var(--i) * 90ms); }
+      @keyframes x-flicker { 0% { opacity: 0; transform: translateY(30px) scale(0.6); } 40% { opacity: 1; transform: none; } 48% { opacity: 0.3; } 52% { opacity: 1; } 58% { opacity: 0.6; } 64%, 100% { opacity: 1; } }
+      .x-js .x-thanks:not(.is-in) h2 span { opacity: 0; }
+      .x-inf { width: 120px; margin: 0 auto 20px; display: block; }
+      .x-inf path { fill: none; stroke: url(#x-inf-grad); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.25 0.75; animation: x-run 3s linear infinite; filter: drop-shadow(0 0 6px var(--x-cyan)); }
+      @keyframes x-run { to { stroke-dashoffset: -1; } }
+      .x-names { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: clamp(28px, 4vw, 48px); }
+      @media (max-width: 760px) { .x-names { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      .x-name { position: relative; padding: 22px 16px; border-radius: var(--r-m); background: var(--fill-tertiary); border: 1px solid var(--stroke-composer); font: 700 clamp(13px, 1.5vw, 16px)/1.3 var(--x-display); letter-spacing: 0.04em; box-shadow: 0 0 24px rgb(122 43 255 / 0.25); transition: box-shadow 0.3s, transform 0.3s var(--ease-out); }
+      .x-name:hover { box-shadow: var(--x-glow); transform: translateY(-4px); }
+      .x-name small { display: block; margin-top: 6px; font: var(--type-caption); color: var(--text-secondary); letter-spacing: 0; }
+
+      /* Lightbox */
+      .x-lb { width: min(96vw, 1500px); max-width: none; max-height: 94vh; padding: 0; border: 1px solid var(--stroke-composer); border-radius: var(--r-l); background: var(--x-navy); color: var(--text-primary); box-shadow: var(--x-glow); overflow: hidden; }
+      .x-lb::backdrop { background: rgb(4 6 28 / 0.85); backdrop-filter: blur(8px); }
+      .x-lb[open] { animation: x-pop 0.4s var(--ease-out); }
+      @keyframes x-pop { from { opacity: 0; transform: scale(0.94); } }
+      .x-lb__img img { width: 100%; height: auto; max-height: 84vh; object-fit: contain; }
+      .x-lb p { padding: 12px 56px 14px 18px; font-size: var(--size-small); color: var(--text-secondary); }
+      .x-lb button { position: absolute; top: 10px; right: 10px; width: var(--tap); height: var(--tap); border-radius: 50%; border: 1px solid var(--stroke-composer); background: var(--mat-inverse); color: #fff; font-size: 20px; cursor: pointer; }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .x-loader { display: none; }
+        .x-title span, .x-hero .x-up, .x-js .x-r, .x-js .x-fly, .x-js .x-thanks:not(.is-in) h2 span { opacity: 1 !important; transform: none !important; filter: none !important; }
+        .x-bp .x-tilt img { clip-path: none; }
+        .x-hero__img { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="x-inf-grad" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#22E6FF" /><stop offset="0.35" stop-color="#2D3BFF" /><stop offset="0.65" stop-color="#7A2BFF" /><stop offset="1" stop-color="#E21FB4" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="x-loader" aria-hidden="true">
+      <div>
+        <svg viewBox="0 0 200 100"><path pathLength="1" d="M100 50 C 80 15, 30 15, 30 50 C 30 85, 80 85, 100 50 C 120 15, 170 15, 170 50 C 170 85, 120 85, 100 50 Z" /></svg>
+        <p>META ∞ VERSE</p>
+      </div>
+    </div>
+    <canvas class="x-stars" aria-hidden="true"></canvas>
+    <div class="x-progress" aria-hidden="true"></div>
+    <div class="x-cursor" aria-hidden="true"></div>
+    <div class="x-cursor-ring" aria-hidden="true"></div>
+    <nav class="x-dots" aria-label="Section dots"></nav>
+
+    <div class="page" id="top">
+      <header class="nav glass" data-auto></header>
+      <main class="main">
+        <section class="x-hero" aria-label="METAVERSE — Beyond the Frames">
+          <img class="x-hero__img" src="assets/gen_overall.jpg" alt="Render of the ballroom transformed into the METAVERSE set" />
+          <div class="x-hero__rings" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="x-hero__copy">
+            <p class="x-hero__eyebrow x-up" style="--d: 0.3s">Hosted by Meta · The St. Regis Mumbai</p>
+            <h1 class="x-title" aria-label="METAVERSE">
+              <span class="x-solid" style="--i:0" aria-hidden="true">M</span><span class="x-solid" style="--i:1" aria-hidden="true">E</span><span class="x-solid" style="--i:2" aria-hidden="true">T</span><span class="x-solid" style="--i:3" aria-hidden="true">A</span><span class="x-line" style="--i:4" aria-hidden="true">V</span><span class="x-line" style="--i:5" aria-hidden="true">E</span><span class="x-line" style="--i:6" aria-hidden="true">R</span><span class="x-line" style="--i:7" aria-hidden="true">S</span><span class="x-line" style="--i:8" aria-hidden="true">E</span>
+            </h1>
+            <p class="x-hero__sub x-up" style="--d: 0.9s"><b>Beyond the Frames</b> — Set Design &amp; Spatial Pack</p>
+            <p class="x-hero__meta x-up" style="--d: 1.1s">Designed by Danial Sayed, Kaloni Dsouza, Peehu Gupta &amp; Jeel Gandhi</p>
+          </div>
+          <span class="x-scrollcue" aria-hidden="true"></span>
+        </section>
+
+        <section class="section" id="event" data-nav="Event">
+          <div class="head x-r">
+            <p class="head__eyebrow">01 · The event</p>
+            <h2>Companies, creators and influencers, in one room to build something.</h2>
+            <p class="head__sub">A Meta networking and co-creation event. Theme: futuristic.</p>
+          </div>
+          <div class="prose x-r">
+            <p>200 distinguished guests in the ballroom of The St. Regis, Lower Parel, Mumbai — turned from a hotel hall into a walk-through metaverse.</p>
+          </div>
+          <section class="stats x-r" aria-label="The pack in numbers">
+            <div class="stat"><span class="stat__fig" data-count="200">200</span><span class="stat__label">Guests</span></div>
+            <div class="stat"><span class="stat__fig" data-count="13">13</span><span class="stat__label">Zones</span></div>
+            <div class="stat"><span class="stat__fig" data-count="42">42</span><span class="stat__label">Page pack</span></div>
+            <div class="stat"><span class="stat__fig" data-count="122">122</span><span class="stat__label">Crew</span></div>
+            <div class="stat"><span class="stat__fig" data-count="91" data-suffix=" kW">91 kW</span><span class="stat__label">Connected power</span></div>
+          </section>
+        </section>
+
+        <section class="section" id="story" data-nav="Story">
+          <div class="head x-r">
+            <p class="head__eyebrow">02 · Design story</p>
+            <h2>Enter. Engage. Elevate.</h2>
+            <p class="head__sub">Three beats that carry a guest from the hotel lobby to the keynote.</p>
+          </div>
+          <div class="steps">
+            <article class="step x-r">
+              <div class="step__intro"><p class="step__num">01</p><p class="step__eyebrow">Enter</p></div>
+              <div>
+                <h3>Out of the hotel, into the metaverse</h3>
+                <p>The hex arch and infinity tunnel pull guests out of the hotel and into the metaverse.</p>
+              </div>
+            </article>
+            <article class="step x-r">
+              <div class="step__intro"><p class="step__num">02</p><p class="step__eyebrow">Engage</p></div>
+              <div>
+                <h3>Guests become creators</h3>
+                <p>The neon photo wall, branding pods, digital pillars and the 'Ask AI Anything' wall turn guests into creators.</p>
+              </div>
+            </article>
+            <article class="step x-r">
+              <div class="step__intro"><p class="step__num">03</p><p class="step__eyebrow">Elevate</p></div>
+              <div>
+                <h3>Everything converges on the portal</h3>
+                <p>Every route ends at the hexagon portal stage, for keynotes and panels.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="palette" data-nav="Palette">
+          <div class="head x-r">
+            <p class="head__eyebrow">03 · Palette &amp; materials</p>
+            <h2>Midnight base, electric light, neon edges.</h2>
+          </div>
+          <div class="x-grid2">
+            <div>
+              <div class="x-swatches">
+                <div class="x-swatch x-r" style="--i:0; --c:#070B2E"><i></i><b>Midnight Navy</b><small>#070B2E · base, floor, drapes</small></div>
+                <div class="x-swatch x-r" style="--i:1; --c:#2D3BFF"><i></i><b>Electric Blue</b><small>#2D3BFF · primary light</small></div>
+                <div class="x-swatch x-r" style="--i:2; --c:#7A2BFF"><i></i><b>Meta Violet</b><small>#7A2BFF · structure paint</small></div>
+                <div class="x-swatch x-r" style="--i:3; --c:#E21FB4"><i></i><b>Hyper Magenta</b><small>#E21FB4 · accent, bar</small></div>
+                <div class="x-swatch x-r" style="--i:4; --c:#22E6FF"><i></i><b>Cyan Neon</b><small>#22E6FF · neon accent</small></div>
+                <div class="x-swatch x-r" style="--i:5; --c:linear-gradient(135deg,#C9B8FF,#9FE8FF,#F3B8F0)"><i></i><b>Holo Lilac</b><small>Holographic finish</small></div>
+              </div>
+              <div class="x-mats x-r" aria-label="Materials">
+                <span class="pill">MDF with PU paint</span><span class="pill">Acrylic</span><span class="pill">Aluminium truss</span><span class="pill">Lycra</span><span class="pill">Vinyl print</span><span class="pill">Mirror</span><span class="pill">LED neon flex</span><span class="pill">Gloss black vinyl floor overlay</span>
+              </div>
+            </div>
+            <figure class="x-frame x-fly">
+              <button type="button" class="x-tilt" aria-label="Enlarge the mood board"><img src="assets/page-4.jpg" alt="Mood board, palette and materials sheet" loading="lazy" /></button>
+              <figcaption><b>MOOD</b> Mood board, palette and materials sheet</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section" id="plan" data-nav="Plan">
+          <div class="head x-r">
+            <p class="head__eyebrow">04 · Master plan</p>
+            <h2>13 zones in a 40 × 22 m hall.</h2>
+            <p class="head__sub">6 m ceiling assumed. Every walkway at least 1.5 m wide.</p>
+          </div>
+          <div class="x-grid2">
+            <figure class="x-frame x-bp x-r">
+              <button type="button" class="x-tilt" aria-label="Enlarge the master floor plan"><img src="assets/page-6.jpg" alt="Master floor plan SD-01" loading="lazy" /></button>
+              <figcaption><b>SD-01</b> Master floor plan</figcaption>
+            </figure>
+            <figure class="x-frame x-bp x-r" style="--i:2">
+              <button type="button" class="x-tilt" aria-label="Enlarge the guest journey and egress plan"><img src="assets/page-7.jpg" alt="Guest journey and emergency egress SD-02" loading="lazy" /></button>
+              <figcaption><b>SD-02</b> Guest journey and emergency egress</figcaption>
+            </figure>
+          </div>
+          <p class="fineprint x-r">Hall dimensions are assumed and to be verified on the site survey.</p>
+        </section>
+
+        <section class="section" id="zones" data-nav="Zones">
+          <div class="head x-r">
+            <p class="head__eyebrow">05 · The zones</p>
+            <h2>Thirteen zones, A to S.</h2>
+            <p class="head__sub">Sizes are L × W × H in metres.</p>
+          </div>
+          <div class="cards x-zones">
+            <div class="x-r" style="--i:0"><span class="x-zone__l">A</span><h3>Entrance arch &amp; tunnel</h3><p><span class="pill">6.0 × 6.0 × 4.8</span><span class="pill">Flow 25/min</span></p></div>
+            <div class="x-r" style="--i:1"><span class="x-zone__l">B</span><h3>Registration desk &amp; stripe wall</h3><p><span class="pill">6.0 × 2.7 × 3.0</span><span class="pill">4 lanes</span></p></div>
+            <div class="x-r" style="--i:2"><span class="x-zone__l">C</span><h3>Photo op &amp; media wall</h3><p><span class="pill">11.5 × 5.3 × 3.0</span><span class="pill">6 at a time</span></p></div>
+            <div class="x-r" style="--i:3"><span class="x-zone__l">D</span><h3>Branding pods ×5</h3><p><span class="pill">14.2 × 2.2 × 2.6</span><span class="pill">30–40</span></p></div>
+            <div class="x-r" style="--i:0"><span class="x-zone__l">E</span><h3>Interactive panels &amp; digital</h3><p><span class="pill">3.6 × 5.0 × 2.7</span><span class="pill">10–12</span></p></div>
+            <div class="x-r" style="--i:1"><span class="x-zone__l">F</span><h3>Meta infinity sculpture</h3><p><span class="pill">4.0 × 1.0 × 2.0</span><span class="pill">Queue of 10</span></p></div>
+            <div class="x-r" style="--i:2"><span class="x-zone__l">G</span><h3>'Ask AI Anything' wall</h3><p><span class="pill">7.2 × 1.7 × 3.0</span><span class="pill">9–12</span></p></div>
+            <div class="x-r" style="--i:3"><span class="x-zone__l">H</span><h3>Lounge pockets ×3</h3><p><span class="pill">2.8 × 2.4 × 1.35 each</span><span class="pill">24 seated</span></p></div>
+            <div class="x-r" style="--i:0"><span class="x-zone__l">I</span><h3>Mini workshop</h3><p><span class="pill">4.0 × 4.2 × 1.9</span><span class="pill">11</span></p></div>
+            <div class="x-r" style="--i:1"><span class="x-zone__l">J</span><h3>Hex bar &amp; 16 cocktail tables</h3><p><span class="pill">3.6 × 2.5 × 2.4</span><span class="pill">120 standing</span></p></div>
+            <div class="x-r" style="--i:2"><span class="x-zone__l">K</span><h3>Backstage, green room &amp; VIP</h3><p><span class="pill">5.6 × 3.2 / 6.2 × 2.3</span><span class="pill">12 + 8</span></p></div>
+            <div class="x-r" style="--i:3"><span class="x-zone__l">L</span><h3>FOH, coat check &amp; storage</h3><p><span class="pill">2.6 × 2.4 FOH</span><span class="pill">4 operators</span></p></div>
+            <div class="x-r" style="--i:0"><span class="x-zone__l">S</span><h3>Main stage (Option 2)</h3><p><span class="pill">14.0 × 4.5 × 0.45</span><span class="pill">200 seats</span></p></div>
+          </div>
+          <div class="head x-r" style="margin-top: clamp(40px, 5vw, 64px)">
+            <p class="head__eyebrow">Sample technical sheets</p>
+            <h2>Every build, drawn to fabricate.</h2>
+          </div>
+          <div class="x-grid3">
+            <figure class="x-frame x-bp x-r" style="--i:0">
+              <button type="button" class="x-tilt" aria-label="Enlarge the entrance arch sheet"><img src="assets/page-8.jpg" alt="Entrance arch technical sheet SD-03" loading="lazy" /></button>
+              <figcaption><b>SD-03</b> Entrance arch</figcaption>
+            </figure>
+            <figure class="x-frame x-bp x-r" style="--i:2">
+              <button type="button" class="x-tilt" aria-label="Enlarge the photo op sheet"><img src="assets/page-10.jpg" alt="Photo op technical sheet SD-05" loading="lazy" /></button>
+              <figcaption><b>SD-05</b> Photo op</figcaption>
+            </figure>
+            <figure class="x-frame x-bp x-r" style="--i:4">
+              <button type="button" class="x-tilt" aria-label="Enlarge the infinity sculpture sheet"><img src="assets/page-13.jpg" alt="Infinity sculpture technical sheet SD-08" loading="lazy" /></button>
+              <figcaption><b>SD-08</b> Infinity sculpture</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section" id="renders" data-nav="Renders">
+          <div class="head x-r">
+            <p class="head__eyebrow">06 · Renders</p>
+            <h2>Walk the set before it's built.</h2>
+            <div class="x-gnav">
+              <button type="button" class="x-gbtn" data-dir="-1" aria-label="Previous render">←</button>
+              <button type="button" class="x-gbtn" data-dir="1" aria-label="Next render">→</button>
+              <span class="x-gcount" aria-live="polite">01 / 05</span>
+            </div>
+          </div>
+          <div class="x-gallery x-r">
+            <div class="x-track" tabindex="0" aria-label="Render gallery">
+              <figure class="x-frame x-slide">
+                <button type="button" class="x-tilt" aria-label="Enlarge the entrance arch render"><img src="assets/gen_entrance.jpg" alt="META ∞ VERSE hex entrance arch" /></button>
+                <figcaption><b>A</b> META ∞ VERSE entrance arch</figcaption>
+              </figure>
+              <figure class="x-frame x-slide">
+                <button type="button" class="x-tilt" aria-label="Enlarge the photo op render"><img src="assets/gen_photoop.jpg" alt="Photo op and networking zone" loading="lazy" /></button>
+                <figcaption><b>C</b> Photo op &amp; networking</figcaption>
+              </figure>
+              <figure class="x-frame x-slide">
+                <button type="button" class="x-tilt" aria-label="Enlarge the stage render"><img src="assets/gen_stage.jpg" alt="Hexagon portal stage" loading="lazy" /></button>
+                <figcaption><b>S</b> Hexagon portal stage</figcaption>
+              </figure>
+              <figure class="x-frame x-slide">
+                <button type="button" class="x-tilt" aria-label="Enlarge the Ask AI Anything render"><img src="assets/gen_askai.jpg" alt="'Ask AI Anything' zone" loading="lazy" /></button>
+                <figcaption><b>G</b> 'Ask AI Anything' zone</figcaption>
+              </figure>
+              <figure class="x-frame x-slide">
+                <button type="button" class="x-tilt" aria-label="Enlarge the ballroom render"><img src="assets/gen_overall.jpg" alt="The transformed ballroom" loading="lazy" /></button>
+                <figcaption><b>∞</b> The transformed ballroom</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="stage" data-nav="Stage">
+          <div class="head x-r">
+            <p class="head__eyebrow">07 · The stage</p>
+            <h2>Option 2: the hexagon portal stage.</h2>
+          </div>
+          <div class="pair">
+            <figure class="x-frame x-bp x-r">
+              <button type="button" class="x-tilt" aria-label="Enlarge the stage option 2 sheet"><img src="assets/page-22.jpg" alt="Stage Option 2 hexagon portal sheet" loading="lazy" /></button>
+              <figcaption><b>STAGE</b> Option 2, hexagon portal</figcaption>
+            </figure>
+            <aside class="callout x-r" style="--i:2" aria-label="Recommended stage">
+              <p class="callout__head"><span class="chip chip--solid">Recommended</span></p>
+              <p class="callout__lead"><strong>14 m × 4.5 m, 0.45 m high.</strong> A P2.6 LED wall framed by the hex portal.</p>
+              <p class="x-mats" style="margin-top:4px"><span class="pill">Panel seating</span><span class="pill">Camera positions</span><span class="pill">Sightlines</span></p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section" id="tech" data-nav="Technical">
+          <div class="head x-r">
+            <p class="head__eyebrow">08 · Technical</p>
+            <h2>Light, sound, floor, power and safety.</h2>
+          </div>
+          <div class="cards">
+            <div class="x-r" style="--i:0"><h3>Lighting</h3><p>3 trusses and 8 colour cues.</p></div>
+            <div class="x-r" style="--i:1"><h3>Sound &amp; AV</h3><p>Sound, AV and a live-stream.</p></div>
+            <div class="x-r" style="--i:2"><h3>Floor</h3><p>A gloss vinyl overlay replaces the hotel carpet.</p></div>
+            <div class="x-r" style="--i:0"><h3>Canopy</h3><p>A hex truss canopy over the hall.</p></div>
+            <div class="x-r" style="--i:1"><h3>Signage</h3><p>Signs S1 to S7 along the guest journey.</p></div>
+            <div class="x-r" style="--i:2"><h3>Power</h3><p>About 91 kW, on 2 × 125 kVA generators.</p></div>
+            <div class="x-r" style="--i:3"><h3>Safety &amp; access</h3><p>Safety and accessibility planned across the set.</p></div>
+          </div>
+          <figure class="x-frame x-bp x-r">
+            <button type="button" class="x-tilt" aria-label="Enlarge the lighting plot"><img src="assets/page-25.jpg" alt="Lighting plot and show cues" loading="lazy" /></button>
+            <figcaption><b>LX</b> Lighting plot and show cues</figcaption>
+          </figure>
+        </section>
+
+        <section class="section" id="set3d" data-nav="3D">
+          <div class="head x-r">
+            <p class="head__eyebrow">09 · The set in 3D</p>
+            <h2>The whole venue, at a glance.</h2>
+          </div>
+          <figure class="x-frame x-axo x-r">
+            <button type="button" class="x-tilt" aria-label="Enlarge the 3D axonometric"><img src="assets/page-33.jpg" alt="Full-venue 3D axonometric of the set" loading="lazy" /></button>
+            <figcaption>Full-venue 3D axonometric</figcaption>
+          </figure>
+        </section>
+
+        <section class="section" id="budget" data-nav="Budget">
+          <div class="head x-r">
+            <p class="head__eyebrow">10 · Budget</p>
+            <h2>About ₹81.1 lakh, all in.</h2>
+            <p class="head__sub">An estimated BOQ of 30 lines. Estimates, not quotes.</p>
+          </div>
+          <div class="pair">
+            <div class="breakdown x-r">
+              <dl>
+                <div class="row"><dt>Subtotal <small>30 BOQ lines</small></dt><dd>₹64.23 lakh</dd></div>
+                <div class="row"><dt>Contingency <small>7%</small></dt><dd>₹4.50 lakh</dd></div>
+                <div class="row"><dt>GST <small>18%</small></dt><dd>₹12.37 lakh</dd></div>
+                <div class="row row--total"><dt>Grand total</dt><dd>≈ ₹81.1 lakh</dd></div>
+              </dl>
+              <p class="fineprint">Estimate only, not vendor quotes. Contingency and GST lines are worked back from the stated rates.</p>
+            </div>
+            <div class="x-r" style="--i:2; align-self:center; text-align:center">
+              <p class="x-total"><span data-count="81.1" data-dec="1" data-prefix="₹">₹81.1</span></p>
+              <p class="fineprint" style="margin: 8px auto 0">lakh, estimated grand total</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-thanks" id="thanks" data-nav="Thanks">
+          <svg class="x-inf" viewBox="0 0 200 100" aria-hidden="true"><path pathLength="1" d="M100 50 C 80 15, 30 15, 30 50 C 30 85, 80 85, 100 50 C 120 15, 170 15, 170 50 C 170 85, 120 85, 100 50 Z" /></svg>
+          <h2 aria-label="Thank you"><span style="--i:0" aria-hidden="true">T</span><span style="--i:1" aria-hidden="true">H</span><span style="--i:2" aria-hidden="true">A</span><span style="--i:3" aria-hidden="true">N</span><span style="--i:4" aria-hidden="true">K</span>&nbsp;<span style="--i:5" aria-hidden="true">Y</span><span style="--i:6" aria-hidden="true">O</span><span style="--i:7" aria-hidden="true">U</span></h2>
+          <div class="x-names">
+            <div class="x-name x-r" style="--i:0">Danial Sayed<small>Set designer</small></div>
+            <div class="x-name x-r" style="--i:1">Kaloni Dsouza<small>Set designer</small></div>
+            <div class="x-name x-r" style="--i:2">Peehu Gupta<small>Set designer</small></div>
+            <div class="x-name x-r" style="--i:3">Jeel Gandhi<small>Set designer</small></div>
+          </div>
+        </section>
+      </main>
+      <footer class="foot">
+        <p>METAVERSE — Beyond the Frames · Set design &amp; spatial pack for Meta at The St. Regis Mumbai. Figures are design estimates.</p>
+        <nav aria-label="Back to sections" data-auto></nav>
+      </footer>
+    </div>
+
+    <dialog class="x-lb" aria-label="Image viewer">
+      <div class="x-lb__img"></div>
+      <p></p>
+      <button type="button" aria-label="Close">×</button>
+    </dialog>
+
+    <script src="assets/main.js"></script>
+    <script>
+      (function () {
+        var doc = document, root = doc.documentElement;
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var fine = window.matchMedia("(pointer: fine)").matches;
+        var $$ = function (s, c) { return [].slice.call((c || doc).querySelectorAll(s)); };
+
+        /* Intro: the loader's CSS fades it at 2.3s; the hero title follows. */
+        setTimeout(function () { root.classList.add("x-ready"); }, reduce ? 0 : 2000);
+        setTimeout(function () { var l = doc.querySelector(".x-loader"); if (l) l.remove(); }, reduce ? 0 : 3200);
+
+        /* Starfield */
+        var cv = doc.querySelector(".x-stars"), ctx = cv.getContext("2d"), stars = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var cols = ["#22E6FF", "#C9B8FF", "#7A2BFF", "#ffffff", "#E21FB4"];
+        function size() {
+          W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          var n = Math.round(Math.min(160, (W * H) / 9000)); stars = [];
+          for (var i = 0; i < n; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + 0.3, z: Math.random() * 0.8 + 0.2, t: Math.random() * 6.28, c: cols[i % cols.length] });
+          if (reduce) draw(0);
+        }
+        var sy = 0;
+        function draw(time) {
+          ctx.clearRect(0, 0, W, H);
+          for (var i = 0; i < stars.length; i++) {
+            var s = stars[i];
+            if (!reduce) { s.y -= s.z * 0.18; if (s.y < -4) { s.y = H + 4; s.x = Math.random() * W; } }
+            var y = ((s.y - sy * s.z * 0.15) % H + H) % H;
+            ctx.globalAlpha = 0.35 + 0.45 * Math.abs(Math.sin(s.t + time * 0.0012 * s.z));
+            ctx.fillStyle = s.c; ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, 6.283); ctx.fill();
+          }
+          if (!reduce) requestAnimationFrame(draw);
+        }
+        size(); addEventListener("resize", size);
+        if (!reduce) requestAnimationFrame(draw);
+
+        /* Scroll: progress bar, hero parallax, axonometric float */
+        var bar = doc.querySelector(".x-progress"), heroImg = doc.querySelector(".x-hero__img"), axo = doc.querySelector(".x-axo .x-tilt"), ticking = false;
+        function onScroll() {
+          ticking = false;
+          var y = scrollY, max = doc.documentElement.scrollHeight - innerHeight;
+          sy = y;
+          bar.style.setProperty("--p", max > 0 ? (y / max).toFixed(4) : 0);
+          if (reduce) return;
+          if (y < innerHeight * 1.2) { heroImg.style.setProperty("--hy", y * 0.35 + "px"); heroImg.style.setProperty("--hs", (1.08 + y / innerHeight * 0.12).toFixed(3)); }
+          if (axo) {
+            var r = axo.getBoundingClientRect(), p = (innerHeight - r.top) / (innerHeight + r.height);
+            p = Math.max(0, Math.min(1, p)); var k = p - 0.5;
+            axo.style.setProperty("--ax", (k * -24).toFixed(2) + "deg");
+            axo.style.setProperty("--ay", (k * 18).toFixed(2) + "deg");
+            axo.style.setProperty("--az", (k * -3).toFixed(2) + "deg");
+            axo.style.setProperty("--as", (0.9 + (0.5 - Math.abs(k)) * 0.2).toFixed(3));
+          }
+        }
+        addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+        onScroll();
+
+        /* Counters */
+        function count(el) {
+          var to = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), pre = el.dataset.prefix || "", suf = el.dataset.suffix || "", t0 = null, dur = 1800;
+          if (reduce) return;
+          function step(t) {
+            if (!t0) t0 = t; var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+            el.textContent = pre + (to * e).toFixed(dec) + suf;
+            if (p < 1) requestAnimationFrame(step);
+          }
+          el.textContent = pre + (0).toFixed(dec) + suf;
+          requestAnimationFrame(step);
+        }
+
+        /* Reveals */
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("is-in");
+            $$("[data-count]", e.target).forEach(count);
+            io.unobserve(e.target);
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+        $$(".x-r, .x-fly, .x-thanks").forEach(function (el) { io.observe(el); });
+
+        /* Tilt */
+        if (fine && !reduce) {
+          $$(".x-tilt").forEach(function (el) {
+            if (el.closest(".x-axo")) return;
+            el.addEventListener("pointermove", function (ev) {
+              var r = el.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - 0.5, y = (ev.clientY - r.top) / r.height - 0.5;
+              el.style.setProperty("--ry", (x * 10).toFixed(2) + "deg"); el.style.setProperty("--rx", (y * -10).toFixed(2) + "deg");
+            });
+            el.addEventListener("pointerleave", function () { el.style.setProperty("--ry", "0deg"); el.style.setProperty("--rx", "0deg"); });
+          });
+        }
+
+        /* Lightbox: clones the clicked image so no src is assigned at run time */
+        var lb = doc.querySelector(".x-lb"), lbImg = lb.querySelector(".x-lb__img"), lbCap = lb.querySelector("p"), dragged = false;
+        $$(".x-tilt").forEach(function (el) {
+          el.addEventListener("click", function () {
+            if (dragged) return;
+            var img = el.querySelector("img"), c = img.cloneNode(); c.removeAttribute("loading");
+            lbImg.replaceChildren(c);
+            var cap = el.closest("figure").querySelector("figcaption");
+            lbCap.textContent = cap ? cap.textContent.trim() : img.alt;
+            if (lb.showModal) lb.showModal();
+          });
+        });
+        lb.querySelector("button").addEventListener("click", function () { lb.close(); });
+        lb.addEventListener("click", function (e) { if (e.target === lb) lb.close(); });
+
+        /* Gallery */
+        var track = doc.querySelector(".x-track"), slides = $$(".x-slide", track), counter = doc.querySelector(".x-gcount"), active = 0;
+        function setActive(i) {
+          active = i;
+          slides.forEach(function (s, j) { s.classList.toggle("is-active", j === i); s.style.setProperty("--side", (j < i ? 14 : j > i ? -14 : 0) + "deg"); });
+          counter.textContent = String(i + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+        }
+        var gio = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.intersectionRatio > 0.6) setActive(slides.indexOf(e.target)); });
+        }, { root: track, threshold: [0.6] });
+        slides.forEach(function (s) { gio.observe(s); });
+        setActive(0);
+        function go(i) {
+          i = (i + slides.length) % slides.length;
+          var s = slides[i];
+          track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth) / 2, behavior: reduce ? "auto" : "smooth" });
+        }
+        $$(".x-gbtn").forEach(function (b) { b.addEventListener("click", function () { go(active + +b.dataset.dir); }); });
+        track.addEventListener("keydown", function (e) { if (e.key === "ArrowRight") { e.preventDefault(); go(active + 1); } if (e.key === "ArrowLeft") { e.preventDefault(); go(active - 1); } });
+        var down = false, sx = 0, sl = 0;
+        track.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") return; down = true; dragged = false; sx = e.clientX; sl = track.scrollLeft; });
+        addEventListener("pointermove", function (e) { if (!down) return; var dx = e.clientX - sx; if (Math.abs(dx) > 6) { dragged = true; track.classList.add("is-drag"); } track.scrollLeft = sl - dx; });
+        addEventListener("pointerup", function () { if (!down) return; down = false; track.classList.remove("is-drag"); if (dragged) { go(active); setTimeout(function () { dragged = false; }, 50); } });
+
+        /* Section dots */
+        var dots = doc.querySelector(".x-dots"), secs = $$("section[data-nav]"), links = [];
+        secs.forEach(function (s) {
+          var a = doc.createElement("a"); a.href = "#" + s.id; a.setAttribute("aria-label", s.dataset.nav);
+          var t = doc.createElement("span"); t.textContent = s.dataset.nav; a.appendChild(t); dots.appendChild(a); links.push(a);
+        });
+        var dio = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a, i) { a.classList.toggle("is-on", secs[i] === e.target); }); });
+        }, { rootMargin: "-45% 0px -50% 0px" });
+        secs.forEach(function (s) { dio.observe(s); });
+
+        /* Cursor follower */
+        if (fine && !reduce) {
+          var dot = doc.querySelector(".x-cursor"), ring = doc.querySelector(".x-cursor-ring"), mx = -100, my = -100, rx = -100, ry = -100;
+          addEventListener("pointermove", function (e) {
+            if (e.pointerType !== "mouse") return;
+            root.classList.add("x-cursor-on"); mx = e.clientX; my = e.clientY;
+            dot.style.transform = "translate(" + mx + "px," + my + "px)";
+            ring.classList.toggle("is-hot", !!e.target.closest("a, button, .x-tilt, .x-name, .x-zones > div"));
+          });
+          doc.addEventListener("pointerleave", function () { root.classList.remove("x-cursor-on"); });
+          (function follow() { rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16; ring.style.transform = "translate(" + rx + "px," + ry + "px)"; requestAnimationFrame(follow); })();
+        }
+      })();
+    </script>
+  </body>
+</html>
